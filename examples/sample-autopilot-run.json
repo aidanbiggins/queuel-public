@@ -1,0 +1,65 @@
+{
+  "id": "apr_01HXYZ987654321",
+  "organizationId": "org_acme_corp",
+  "ruleId": "rule_phone_screen_auto",
+
+  "webhookEventId": "wh_icims_evt_12345",
+  "applicationId": "icims-app-48291",
+  "candidateEmail": "alex.chen@example.com",
+  "candidateName": "Alex Chen",
+  "requisitionId": "REQ-2026-0042",
+  "requisitionTitle": "Senior Software Engineer - Platform",
+  "triggerStatus": "Ready for Interview",
+
+  "status": "completed",
+  "outcome": "booked",
+  "dryRun": false,
+
+  "availabilityRequestId": "ar_01HXYZ_avail_001",
+  "requestToken": null,
+  "notificationJobId": "nj_01HXYZ_notify_001",
+
+  "startedAt": "2026-02-05T14:30:01.000Z",
+  "completedAt": "2026-02-07T10:15:30.000Z",
+
+  "errorMessage": null,
+  "errorStack": null,
+  "retryCount": 0,
+  "maxRetries": 3,
+
+  "idempotencyKey": "queuel-org_acme_corp-icims-app-48291-Ready for Interview-2026-02-05",
+
+  "loopSolveRunId": "lsr_01HXYZ_solve_001",
+  "solveIdempotencyKey": "queuel-solve-ar_01HXYZ_avail_001-lt_phone_screen",
+  "solutionsCount": 3,
+  "solveResult": {
+    "status": "SOLVED",
+    "solutionsCount": 3,
+    "topConstraints": [],
+    "recommendedActions": [],
+    "confidence": "HIGH"
+  },
+
+  "approvalStatus": "approved",
+  "approvedBy": "user_coord_001",
+  "approvedAt": "2026-02-07T10:12:00.000Z",
+  "chosenSolutionId": "sol_01_best",
+  "rejectionReason": null,
+
+  "loopBookingId": "lb_01HXYZ_booking_001",
+  "commitIdempotencyKey": "queuel-commit-lsr_01HXYZ_solve_001-sol_01_best",
+
+  "availabilitySubmittedAt": "2026-02-06T16:45:00.000Z",
+
+  "autoCommitDecision": null,
+  "escalationSentAt": null,
+  "escalationSnoozedUntil": null,
+  "lastHealAt": null,
+  "healCount": 0,
+  "lastHealStatus": null,
+
+  "createdAt": "2026-02-05T14:30:00.000Z",
+  "updatedAt": "2026-02-07T10:15:30.000Z",
+
+  "_comment": "This is a sanitized example of a successful autopilot run. Phase 1: webhook triggered rule match and availability request. Phase 2: candidate submitted availability, solver found 3 solutions with HIGH confidence. Coordinator approved the top solution. Interviews booked successfully."
+}

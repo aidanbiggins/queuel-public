@@ -1,0 +1,30 @@
+{
+  "id": "sr_01HXYZ123456789",
+  "organizationId": "org_acme_corp",
+  "applicationId": "icims-app-48291",
+  "candidateName": "Alex Chen",
+  "candidateEmail": "alex.chen@example.com",
+  "reqId": "REQ-2026-0042",
+  "reqTitle": "Senior Software Engineer - Platform",
+  "interviewType": "onsite",
+  "durationMinutes": 60,
+  "interviewerEmails": [
+    "jamie@acme.com",
+    "morgan@acme.com",
+    "riley@acme.com"
+  ],
+  "organizerEmail": "recruiting@acme.com",
+  "calendarProvider": "microsoft_graph",
+  "windowStart": "2026-02-10T00:00:00.000Z",
+  "windowEnd": "2026-02-21T00:00:00.000Z",
+  "candidateTimezone": "America/New_York",
+  "status": "pending",
+  "needsAttention": false,
+  "needsAttentionReason": null,
+  "expiresAt": "2026-02-17T00:00:00.000Z",
+  "createdBy": "user_coord_001",
+  "createdAt": "2026-02-05T14:30:00.000Z",
+  "updatedAt": "2026-02-05T14:30:00.000Z",
+
+  "_comment": "This is a sanitized example. Real requests include publicToken and publicTokenHash for secure link access."
+}
