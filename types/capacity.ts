@@ -3,12 +3,15 @@
  * M15: Scheduling Intelligence & Capacity Planning
  */
 
+import { InterviewType } from './scheduling';
+import type { AvailabilitySchedule } from './availabilitySchedule';
+
 // ============================================
 // Interviewer Profile Types
 // ============================================
 
-export type InterviewType = 'phone_screen' | 'hm_screen' | 'onsite' | 'final';
 export type CalibrationLevel = 'beginner' | 'intermediate' | 'expert';
+export type Seniority = 'junior' | 'mid' | 'senior' | 'staff' | 'principal';
 
 export interface InterviewerProfile {
   id: string;
@@ -38,16 +41,22 @@ export interface InterviewerProfile {
   workHours: Record<string, { start: string; end: string } | null>; // {"mon": {start: "09:00", end: "17:00"}}
   timezone: string;
 
-  // Preferences
+  // Availability schedule (new: multi-range, overrides, notice)
+  availabilitySchedule: AvailabilitySchedule | null;
+
+  // Preferences (legacy - keeping for compatibility)
   preferredTimes: Record<string, string[]>; // {"mon": ["09:00-12:00"], ...}
   blackoutDates: string[]; // ["2026-01-20", ...]
   interviewTypePreferences: InterviewType[];
 
-  // Skills & Focus
+  // Structured profile fields
+  department: string | null;
+  manager: string | null;
+  seniority: Seniority | null;
+  startDate: string | null;       // ISO date (hire/start date)
+
+  // Tags (merged from legacy focusAreas/skillAreas/seniorityLevels)
   tags: string[];
-  skillAreas: string[];
-  focusAreas: string[];           // "Backend", "System Design", "Leadership"
-  seniorityLevels: string[];
 
   // Status
   isActive: boolean;
@@ -55,10 +64,10 @@ export interface InterviewerProfile {
   lastCapacityOverrideBy: string | null;
 
   // Calibration override fields
-  priorInterviewCount: number | null;
-  calibrationOverride: CalibrationLevel | null;
-  calibrationOverrideAt: Date | null;
-  calibrationOverrideBy: string | null;
+  priorInterviewCount: number | null;           // Manual entry for imports (pre-system interviews)
+  calibrationOverride: CalibrationLevel | null; // Admin override (null = use computed)
+  calibrationOverrideAt: Date | null;           // When override was set
+  calibrationOverrideBy: string | null;         // Who set the override
 
   // Metadata
   createdAt: Date;
@@ -92,16 +101,22 @@ export interface InterviewerProfileInput {
   workHours?: Record<string, { start: string; end: string } | null>;
   timezone?: string;
 
+  // Availability schedule
+  availabilitySchedule?: AvailabilitySchedule | null;
+
   // Preferences
   preferredTimes?: Record<string, string[]>;
   blackoutDates?: string[];
   interviewTypePreferences?: InterviewType[];
 
-  // Skills & Focus
+  // Structured profile fields
+  department?: string | null;
+  manager?: string | null;
+  seniority?: Seniority | null;
+  startDate?: string | null;
+
+  // Tags
   tags?: string[];
-  skillAreas?: string[];
-  focusAreas?: string[];
-  seniorityLevels?: string[];
 
   // Calibration override fields
   priorInterviewCount?: number | null;

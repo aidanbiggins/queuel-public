@@ -86,7 +86,9 @@ export type AuditAction =
   | 'open_booking_link_updated'
   | 'open_booking_link_deleted'
   // Calibration rules audit actions
-  | 'calibration_rules_updated';
+  | 'calibration_rules_updated'
+  // Calendar sync drift detection
+  | 'calendar_drift_detected';
 
 export type SyncJobType = 'icims_note';
 export type SyncJobStatus = 'pending' | 'processing' | 'completed' | 'failed';
@@ -156,6 +158,10 @@ export interface SchedulingRequest {
   // Participants
   interviewerEmails: string[];
 
+  // Pool selection (when using interviewer pools)
+  interviewerPoolId: string | null;
+  selectionMode: 'pool' | 'specific' | 'pick_one';
+
   // Calendar linkage (v2)
   organizerEmail: string;
   calendarProvider: CalendarProvider;
@@ -196,19 +202,31 @@ export interface Booking {
   scheduledStart: Date;
   scheduledEnd: Date;
 
-  // Calendar event (v2)
+  // Calendar event - candidate side
   calendarEventId: string | null;
   calendarIcalUid: string | null;
   conferenceJoinUrl: string | null;
 
+  // Calendar event - interviewer side (split events)
+  interviewerCalendarEventId: string | null;
+  interviewerCalendarIcalUid: string | null;
+
   // iCIMS sync (M6)
   icimsActivityId: string | null;
+
+  // Pool selection result
+  selectedInterviewerEmail: string | null;
 
   // Status
   status: BookingStatus;
   confirmedAt: Date | null;
   cancelledAt: Date | null;
   cancellationReason: string | null;
+
+  // Calendar sync
+  needsAttention: boolean;
+  needsAttentionReason: string | null;
+  calendarLastCheckedAt: Date | null;
 
   // Audit
   bookedBy: string; // 'candidate' or coordinator user id
@@ -313,6 +331,7 @@ export interface InterviewerAvailability {
     timeZone: string;
     daysOfWeek: number[]; // 0=Sun, 1=Mon, etc.
   };
+  schedule?: import('./availabilitySchedule').AvailabilitySchedule;
 }
 
 export interface AvailableSlot {
@@ -386,6 +405,8 @@ export interface CreateSchedulingRequestInput {
   interviewType: InterviewType;
   durationMinutes: number;
   interviewerEmails: string[];
+  interviewerPoolId?: string | null;
+  selectionMode?: 'pool' | 'specific' | 'pick_one';
   windowStart: string; // ISO 8601
   windowEnd: string;
   candidateTimezone: string;
@@ -420,6 +441,7 @@ export interface BookSlotOutput {
     scheduledStart: string;
     scheduledEnd: string;
     conferenceJoinUrl: string | null;
+    selectedInterviewerEmail?: string | null;
   };
   message: string;
 }
@@ -608,6 +630,15 @@ export type NotificationEntityType = 'scheduling_request' | 'booking' | 'availab
 
 export type NotificationChannel = 'EMAIL' | 'SMS';
 
+export type EmailDeliveryStatus =
+  | 'sent'
+  | 'delivered'
+  | 'delivery_delayed'
+  | 'opened'
+  | 'clicked'
+  | 'bounced'
+  | 'complained';
+
 /**
  * NotificationJob - A queued notification (email or SMS)
  */
@@ -627,6 +658,8 @@ export interface NotificationJob {
   runAfter: Date;
   lastError: string | null;
   sentAt: Date | null;
+  deliveryStatus: EmailDeliveryStatus | null;
+  deliveryStatusAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -4,6 +4,8 @@
  * Types for automated multi-session interview loop scheduling.
  */
 
+import type { OrgMemberRole } from './organization';
+
 // ============================================================================
 // Loop Template Types
 // ============================================================================

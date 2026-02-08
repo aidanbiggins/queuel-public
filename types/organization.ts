@@ -2,7 +2,6 @@
  * Organization Types
  *
  * Types for multi-tenant organization support.
- * Note: Integration credential fields redacted for security.
  */
 
 import type { PlanTier, StripeSubscriptionStatus } from './billing';
@@ -24,11 +23,17 @@ export interface Organization {
   // Limits
   maxMembers: number | null;
 
-  // iCIMS Integration (credentials redacted)
+  // iCIMS Integration
+  icimsBaseUrl: string | null;
+  icimsApiKey: string | null;
+  icimsCustomerId: string | null;
   icimsStatus: 'not_configured' | 'connected' | 'error' | null;
   icimsLastTestedAt: Date | null;
 
-  // Microsoft Graph Calendar (credentials redacted)
+  // Microsoft Graph Calendar
+  graphTenantId: string | null;
+  graphClientId: string | null;
+  graphClientSecret: string | null;
   graphOrganizerEmail: string | null;
   graphStatus: 'not_configured' | 'connected' | 'error' | null;
   graphLastTestedAt: Date | null;
@@ -100,8 +105,25 @@ export interface UpdateOrganizationInput {
   defaultTimezone?: string;
   defaultDurationMinutes?: number;
   maxMembers?: number | null;
+  // iCIMS Integration
+  icimsBaseUrl?: string | null;
+  icimsApiKey?: string | null;
+  icimsCustomerId?: string | null;
+  icimsStatus?: 'not_configured' | 'connected' | 'error' | null;
+  icimsLastTestedAt?: Date | null;
+  // Microsoft Graph Calendar
+  graphTenantId?: string | null;
+  graphClientId?: string | null;
+  graphClientSecret?: string | null;
+  graphOrganizerEmail?: string | null;
+  graphStatus?: 'not_configured' | 'connected' | 'error' | null;
+  graphLastTestedAt?: Date | null;
   // Billing
   planTier?: PlanTier;
+  stripeCustomerId?: string | null;
+  stripeSubscriptionId?: string | null;
+  stripeSubscriptionStatus?: StripeSubscriptionStatus | null;
+  stripeCurrentPeriodEnd?: Date | null;
   billingEmail?: string | null;
 }
 

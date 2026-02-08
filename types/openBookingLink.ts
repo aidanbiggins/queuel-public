@@ -5,7 +5,8 @@
  * enter their name + email and book time on an interviewer's calendar.
  */
 
-export type InterviewType = 'phone_screen' | 'hm_screen' | 'onsite' | 'final';
+import type { InterviewType } from './scheduling';
+import type { AvailabilitySchedule } from './availabilitySchedule';
 
 export interface OpenBookingLink {
   id: string;
@@ -20,6 +21,7 @@ export interface OpenBookingLink {
   organizerEmail: string;
   rollingWindowDays: number;
   maxBookingsPerDay: number | null;
+  availabilitySchedule: AvailabilitySchedule | null;
   isActive: boolean;
   bookingCount: number;
   createdBy: string;
@@ -39,6 +41,7 @@ export interface CreateOpenBookingLinkInput {
   organizerEmail: string;
   rollingWindowDays?: number;
   maxBookingsPerDay?: number | null;
+  availabilitySchedule?: AvailabilitySchedule | null;
   createdBy: string;
 }
 
@@ -51,6 +54,7 @@ export interface UpdateOpenBookingLinkInput {
   interviewerEmails?: string[];
   rollingWindowDays?: number;
   maxBookingsPerDay?: number | null;
+  availabilitySchedule?: AvailabilitySchedule | null;
   isActive?: boolean;
 }
 

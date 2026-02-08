@@ -6,7 +6,7 @@
  * Using a template: user only enters candidate name + email.
  */
 
-export type InterviewType = 'phone_screen' | 'hm_screen' | 'onsite' | 'final';
+import type { InterviewType } from './scheduling';
 
 export interface RequestTemplate {
   id: string;
@@ -16,6 +16,7 @@ export interface RequestTemplate {
   durationMinutes: number;
   interviewerPoolId: string | null; // Reference to InterviewerPool
   interviewerEmails: string[]; // Fallback if no pool
+  selectionMode: 'specific' | 'pick_one' | null; // null when using pool
   defaultWindowDays: number; // Default scheduling window
   isDefault: boolean; // Show prominently on Hub
   usageCount: number; // Track popularity
@@ -31,6 +32,7 @@ export interface CreateRequestTemplateInput {
   durationMinutes: number;
   interviewerPoolId?: string | null;
   interviewerEmails?: string[];
+  selectionMode?: 'specific' | 'pick_one' | null;
   defaultWindowDays?: number;
   isDefault?: boolean;
   createdBy: string;
@@ -42,6 +44,7 @@ export interface UpdateRequestTemplateInput {
   durationMinutes?: number;
   interviewerPoolId?: string | null;
   interviewerEmails?: string[];
+  selectionMode?: 'specific' | 'pick_one' | null;
   defaultWindowDays?: number;
   isDefault?: boolean;
 }
