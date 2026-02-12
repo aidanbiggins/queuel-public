@@ -3,7 +3,13 @@
  *
  * High-volume scheduling mode where coordinators define a day with time blocks,
  * invite multiple candidates, and book them into slots on that day.
+ *
+ * Supports two modes:
+ * - 'classic': Simple availability collection + manual booking
+ * - 'batch': Constraint-satisfaction solver with stations + rotations
  */
+
+import type { BatchDayConfig, BatchDayMode } from './batchDay';
 
 // ============================================
 // Enums
@@ -50,6 +56,10 @@ export interface InterviewDay {
 
   // Status
   status: InterviewDayStatus;
+
+  // Mode: 'classic' (default) or 'batch' (stations + solver)
+  mode: BatchDayMode;
+  batchConfig: BatchDayConfig | null;
 
   // Deadlines
   candidateDeadline: Date; // When candidates must submit availability by
@@ -134,6 +144,8 @@ export interface CreateInterviewDayInput {
   interviewerEmails: string[];
   candidateDeadline: Date;
   createdBy: string;
+  mode?: BatchDayMode;
+  batchConfig?: BatchDayConfig;
 }
 
 export interface UpdateInterviewDayInput {
@@ -147,6 +159,8 @@ export interface UpdateInterviewDayInput {
   interviewerEmails?: string[];
   candidateDeadline?: Date;
   status?: InterviewDayStatus;
+  mode?: BatchDayMode;
+  batchConfig?: BatchDayConfig;
 }
 
 export interface CreateInterviewDayInviteInput {

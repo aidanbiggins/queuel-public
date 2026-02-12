@@ -15,7 +15,8 @@ Live at [app.queuel.io](https://app.queuel.io)
 - **Loop Autopilot** — Define multi-session interview loops (phone screen + technical + hiring manager). A constraint solver schedules the entire loop in one pass, respecting business hours, interviewer capacity, and buffer times.
 - **Self-healing** — When an interviewer declines or a conflict appears, the system automatically finds a replacement and reschedules. Approval gates prevent runaway automation.
 - **ATS integration** — iCIMS webhooks trigger scheduling automatically when a candidate status changes. No coordinator intervention needed.
-- **Interview Days** — High-volume mode for scheduling many candidates into time blocks on a single day.
+- **Interview Days** — High-volume mode for scheduling many candidates into time blocks on a single day. Supports classic (manual booking) and batch (constraint solver with stations + rotations) modes.
+- **Batch Day Scheduling** — Station-rotation scheduling for high-volume interview days. Define stations (interview stages), assign interviewers, and let the solver schedule all candidates across waves automatically.
 - **Capacity planning** — Interviewer profiles with weekly caps, load rollups, burnout detection, and org-wide capacity dashboards.
 
 ## Architecture highlights
@@ -56,6 +57,8 @@ Live at [app.queuel.io](https://app.queuel.io)
 | Request templates | Shipped |
 | Open booking links | Shipped |
 | Interview Days | Shipped |
+| Batch Day Scheduling (stations + solver) | Shipped |
+| Email delivery tracking (Resend webhooks) | Shipped |
 | Capacity planning + load balancing | Shipped |
 | Calibration rules | Shipped |
 | Loop templates + constraint solver | Shipped |
@@ -89,7 +92,8 @@ The `types/` directory contains the complete TypeScript type system:
 - **capacity.ts** — Interviewer profiles, load rollups, recommendations, capacity dashboards
 - **organization.ts** — Multi-tenant orgs, members, roles, email templates
 - **billing.ts** — Plan tiers, feature gating, Stripe subscription types
-- **interviewDay.ts** — High-volume interview day scheduling
+- **interviewDay.ts** — High-volume interview day scheduling (classic + batch modes)
+- **batchDay.ts** — Batch day stations, waves, solver I/O, assignments, and schedule grid types
 - **interviewerPool.ts** — Named interviewer groups with weekly caps
 - **calibrationRules.ts** — Title-based and count-based interviewer calibration
 - **openBookingLink.ts** — Reusable public booking URLs

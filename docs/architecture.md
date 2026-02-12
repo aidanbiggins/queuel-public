@@ -62,6 +62,27 @@ Used for multi-session interview loops (e.g., phone screen + 2 technical + hirin
 - **Output**: Ranked solutions with confidence level. When no solution exists (UNSAT), returns blocking constraint violations and recommended actions (e.g., "add more interviewers", "extend availability window").
 - **Safety**: Configurable timeout (default 10s), max iteration limit, idempotent solve runs.
 
+### Batch day scheduling
+
+Interview days support two modes:
+
+1. **Classic** — Candidates submit availability, coordinator books them into slots manually with solver-suggested time slots.
+
+2. **Batch** — Station-rotation scheduling for high-volume days (e.g., residency match days, assessment centers). Coordinators define:
+   - **Stations** — Interview stages (e.g., "Technical", "Behavioral", "Case Study"), each with assigned interviewers or pools
+   - **Waves** — Time-grouped cohorts of candidates starting together
+   - **Config** — Duration per round, buffer between rounds, room settings
+
+   The batch solver assigns candidates to station/wave slots:
+   - Ensures each candidate visits every required station exactly once
+   - Rotates interviewers across rounds to balance load
+   - Respects interviewer calendar availability (live free/busy lookups)
+   - Supports locked assignments (manual overrides preserved across re-solves)
+   - Scores solutions on coverage, load balance, idle time, and back-to-back scheduling
+   - Returns warnings for unassigned candidates, overloaded interviewers, or missing pool members
+
+   After solving, coordinators review the grid, lock/unlock assignments, and commit — which creates calendar events for all participants.
+
 ### Autopilot (3-phase)
 
 Fully automated scheduling triggered by ATS webhooks:
@@ -92,6 +113,8 @@ When a booked interview loop encounters disruption:
 - Exponential backoff on failures (max 5 attempts)
 - Templates: candidate-facing, coordinator-facing, interviewer-facing
 - Custom templates per organization (HTML + text)
+- Email delivery tracking via Resend webhooks (sent → delivered → opened → clicked → bounced)
+- Delivery status surfaced in coordinator UI alongside invite status
 
 ### Multi-tenancy
 
