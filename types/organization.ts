@@ -23,12 +23,21 @@ export interface Organization {
   // Limits
   maxMembers: number | null;
 
+  // ATS Provider (which ATS is active)
+  atsProvider: 'icims' | 'greenhouse' | null;
+
   // iCIMS Integration
   icimsBaseUrl: string | null;
   icimsApiKey: string | null;
   icimsCustomerId: string | null;
   icimsStatus: 'not_configured' | 'connected' | 'error' | null;
   icimsLastTestedAt: Date | null;
+
+  // Greenhouse Integration
+  greenhouseApiKey: string | null;
+  greenhouseStatus: 'not_configured' | 'connected' | 'error' | null;
+  greenhouseLastTestedAt: Date | null;
+  greenhouseWebhookSecret: string | null;
 
   // Microsoft Graph Calendar
   graphTenantId: string | null;
@@ -105,12 +114,19 @@ export interface UpdateOrganizationInput {
   defaultTimezone?: string;
   defaultDurationMinutes?: number;
   maxMembers?: number | null;
+  // ATS Provider
+  atsProvider?: 'icims' | 'greenhouse' | null;
   // iCIMS Integration
   icimsBaseUrl?: string | null;
   icimsApiKey?: string | null;
   icimsCustomerId?: string | null;
   icimsStatus?: 'not_configured' | 'connected' | 'error' | null;
   icimsLastTestedAt?: Date | null;
+  // Greenhouse Integration
+  greenhouseApiKey?: string | null;
+  greenhouseStatus?: 'not_configured' | 'connected' | 'error' | null;
+  greenhouseLastTestedAt?: Date | null;
+  greenhouseWebhookSecret?: string | null;
   // Microsoft Graph Calendar
   graphTenantId?: string | null;
   graphClientId?: string | null;
@@ -148,7 +164,10 @@ export type EmailTemplateType =
   | 'coordinator_escalation_expired'
   // Interviewer-facing
   | 'interviewer_notification'
-  | 'interviewer_reminder';
+  | 'interviewer_reminder'
+  // Interview day
+  | 'interview_day_invite'
+  | 'interview_day_reminder';
 
 /**
  * Custom email template for an organization

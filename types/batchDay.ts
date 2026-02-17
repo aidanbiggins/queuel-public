@@ -188,7 +188,7 @@ export interface SolverWarning {
 }
 
 /**
- * Full solver input assembled before calling the solver
+ * Full solver input assembled by BatchDayService before calling the solver
  */
 export interface SolverInput {
   dayId: string;

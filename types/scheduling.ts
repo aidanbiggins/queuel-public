@@ -21,6 +21,9 @@ export type AuditAction =
   | 'icims_note_attempt'
   | 'icims_note_success'
   | 'icims_note_failed'
+  | 'greenhouse_note_attempt'
+  | 'greenhouse_note_success'
+  | 'greenhouse_note_failed'
   | 'sync_job_created'
   | 'sync_job_success'
   | 'sync_job_failed'
@@ -29,6 +32,8 @@ export type AuditAction =
   | 'webhook_deduped'
   | 'webhook_processed'
   | 'webhook_failed'
+  | 'webhook_candidate_propagated'
+  | 'webhook_requisition_propagated'
   | 'reconciliation_detected'
   | 'reconciliation_repaired'
   | 'reconciliation_failed'
@@ -39,6 +44,7 @@ export type AuditAction =
   | 'member_role_changed'
   | 'member_removed'
   | 'interview_day_invited'
+  | 'interview_day_invite_removed'
   | 'interview_day_booked'
   | 'interviewer_pool_created'
   | 'interviewer_pool_updated'
@@ -88,13 +94,15 @@ export type AuditAction =
   // Calibration rules audit actions
   | 'calibration_rules_updated'
   // Calendar sync drift detection
-  | 'calendar_drift_detected';
+  | 'calendar_drift_detected'
+  // Booking transaction safety
+  | 'booking_failed_orphaned_events';
 
-export type SyncJobType = 'icims_note';
+export type SyncJobType = 'icims_note' | 'greenhouse_note';
 export type SyncJobStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export type WebhookStatus = 'received' | 'processing' | 'processed' | 'failed';
-export type WebhookProvider = 'icims';
+export type WebhookProvider = 'icims' | 'greenhouse';
 
 export type ReconciliationJobType =
   | 'icims_note_missing'
@@ -475,6 +483,9 @@ export type AvailabilityRequestStatus =
 export interface AvailabilityRequest {
   id: string;
 
+  // Organization (multi-tenant)
+  organizationId: string | null; // FK to organizations
+
   // Context (from iCIMS or manual entry)
   applicationId: string | null; // iCIMS application ID
   candidateName: string;
@@ -622,11 +633,44 @@ export type NotificationType =
   | 'interviewer_notification'
   | 'interviewer_reminder'
   // Phase 3: Autopilot escalation
-  | 'autopilot_escalation';
+  | 'autopilot_escalation'
+  // Interview Days
+  | 'interview_day_invite'
+  | 'batch_day_schedule_confirmation';
 
 export type NotificationStatus = 'PENDING' | 'SENDING' | 'SENT' | 'FAILED' | 'CANCELED';
 
-export type NotificationEntityType = 'scheduling_request' | 'booking' | 'availability_request' | 'autopilot_run';
+export type NotificationEntityType = 'scheduling_request' | 'booking' | 'availability_request' | 'autopilot_run' | 'interview_day_invite';
+
+export interface BatchDayScheduleConfirmationPayload {
+  candidateName: string;
+  candidateEmail: string;
+  interviewDayName: string;
+  interviewDayDate: string;
+  timezone: string;
+  conferenceJoinUrl: string | null;
+  scheduleLink: string;
+  assignments: Array<{
+    stationName: string;
+    focusArea: string | null;
+    scheduledStart: string;
+    scheduledEnd: string;
+  }>;
+  organizationName?: string;
+}
+
+export interface InterviewDayInvitePayload {
+  candidateName: string;
+  candidateEmail: string;
+  interviewDayName: string;
+  interviewDayDate: string;       // e.g. "2026-02-16"
+  timezone: string;
+  durationMinutes: number;
+  deadlineUtc: string;            // ISO string
+  publicLink: string;
+  organizationName?: string;
+  isReminder?: boolean;
+}
 
 export type NotificationChannel = 'EMAIL' | 'SMS';
 
