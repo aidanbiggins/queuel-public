@@ -14,7 +14,7 @@ Live at [app.queuel.io](https://app.queuel.io)
 - **Candidate availability mode** — Candidates submit availability windows. The system suggests optimal slots ranked by interviewer load, time preferences, and capacity.
 - **Loop Autopilot** — Define multi-session interview loops (phone screen + technical + hiring manager). A constraint solver schedules the entire loop in one pass, respecting business hours, interviewer capacity, and buffer times.
 - **Self-healing** — When an interviewer declines or a conflict appears, the system automatically finds a replacement and reschedules. Approval gates prevent runaway automation.
-- **ATS integration** — iCIMS webhooks trigger scheduling automatically when a candidate status changes. No coordinator intervention needed.
+- **ATS integration** — iCIMS and Greenhouse integrations. Webhooks trigger scheduling automatically when a candidate stage changes. Bidirectional: notes written back to ATS on booking events.
 - **Interview Days** — High-volume mode for scheduling many candidates into time blocks on a single day. Supports classic (manual booking) and batch (constraint solver with stations + rotations) modes.
 - **Batch Day Scheduling** — Station-rotation scheduling for high-volume interview days. Define stations (interview stages), assign interviewers, and let the solver schedule all candidates across waves automatically.
 - **Capacity planning** — Interviewer profiles with weekly caps, load rollups, burnout detection, and org-wide capacity dashboards.
@@ -37,7 +37,7 @@ Live at [app.queuel.io](https://app.queuel.io)
 | Database | PostgreSQL (Supabase) |
 | Auth | NextAuth.js (Google, Microsoft SSO) |
 | Calendar | Microsoft Graph API, Google Calendar API |
-| ATS | iCIMS REST API |
+| ATS | iCIMS REST API, Greenhouse Harvest API |
 | Email | Resend |
 | Billing | Stripe (subscriptions, trials, webhooks) |
 | Hosting | Vercel |
@@ -65,6 +65,8 @@ Live at [app.queuel.io](https://app.queuel.io)
 | Loop Autopilot (3-phase) | Shipped |
 | Self-healing (auto-replace, reschedule) | Shipped |
 | iCIMS webhook integration | Shipped |
+| Greenhouse integration (write-back + webhooks) | Shipped |
+| Calendar subscriptions (iCal export) | Shipped |
 | Stripe billing (Free / Pro / Enterprise) | Shipped |
 | Custom email templates | Shipped |
 | Analytics dashboard | In progress |
@@ -98,6 +100,9 @@ The `types/` directory contains the complete TypeScript type system:
 - **calibrationRules.ts** — Title-based and count-based interviewer calibration
 - **openBookingLink.ts** — Reusable public booking URLs
 - **requestTemplate.ts** — Pre-saved scheduling configurations
+- **calendarSubscription.ts** — iCal subscription feeds with scope and detail level controls
+- **invite.ts** — Organization invitations with role assignment and expiry
+- **export.ts** — Admin CSV export data shapes
 
 ## License
 
