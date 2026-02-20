@@ -208,54 +208,45 @@ export type RecommendationStatus = 'active' | 'dismissed' | 'acted' | 'expired';
 export interface SchedulingRecommendation {
   id: string;
   organizationId: string;
-  schedulingRequestId: string | null;
-  availabilityRequestId: string | null;
+  relatedRequestId: string | null;
+  relatedInterviewerId: string | null;
 
   // Recommendation details
-  recommendationType: RecommendationType;
+  type: RecommendationType;
   priority: RecommendationPriority;
 
-  // Evidence
+  // Content
   title: string;
-  description: string;
-  evidence: RecommendationEvidence;
+  description: string | null;
 
-  // Suggested action
-  suggestedAction: string | null;
-  actionData: Record<string, unknown> | null;
+  // Action
+  actionType: string | null;
+  actionPayload: Record<string, unknown> | null;
 
   // Status
   status: RecommendationStatus;
   dismissedAt: Date | null;
   dismissedBy: string | null;
-  dismissedReason: string | null;
   actedAt: Date | null;
-  actedBy: string | null;
 
   // TTL
   expiresAt: Date | null;
 
   // Metadata
   createdAt: Date;
-}
-
-export interface RecommendationEvidence {
-  generatedAt: string;
-  dataVersion: string;
-  [key: string]: unknown;
+  updatedAt: Date | null;
 }
 
 export interface RecommendationInput {
   organizationId: string;
-  schedulingRequestId?: string;
-  availabilityRequestId?: string;
-  recommendationType: RecommendationType;
+  relatedRequestId?: string;
+  relatedInterviewerId?: string;
+  type: RecommendationType;
   priority: RecommendationPriority;
   title: string;
   description: string;
-  evidence: RecommendationEvidence;
-  suggestedAction?: string;
-  actionData?: Record<string, unknown>;
+  actionType?: string;
+  actionPayload?: Record<string, unknown>;
   expiresAt?: Date;
 }
 

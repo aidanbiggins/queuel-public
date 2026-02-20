@@ -18,6 +18,7 @@ Live at [app.queuel.io](https://app.queuel.io)
 - **Interview Days** — High-volume mode for scheduling many candidates into time blocks on a single day. Supports classic (manual booking) and batch (constraint solver with stations + rotations) modes.
 - **Batch Day Scheduling** — Station-rotation scheduling for high-volume interview days. Define stations (interview stages), assign interviewers, and let the solver schedule all candidates across waves automatically.
 - **Capacity planning** — Interviewer profiles with weekly caps, load rollups, burnout detection, and org-wide capacity dashboards.
+- **Self-service autopilot settings** — Admins configure autopilot mode, rules, and circuit breakers directly from the settings UI. No code or support tickets needed to tune automation behavior.
 
 ## Architecture highlights
 
@@ -69,6 +70,8 @@ Live at [app.queuel.io](https://app.queuel.io)
 | Calendar subscriptions (iCal export) | Shipped |
 | Stripe billing (Free / Pro / Enterprise) | Shipped |
 | Custom email templates | Shipped |
+| Self-service autopilot settings | Shipped |
+| Interactive product demos | Shipped |
 | Analytics dashboard | In progress |
 
 ## Repository structure

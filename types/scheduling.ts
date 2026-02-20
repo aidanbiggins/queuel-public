@@ -339,7 +339,7 @@ export interface InterviewerAvailability {
     timeZone: string;
     daysOfWeek: number[]; // 0=Sun, 1=Mon, etc.
   };
-  schedule?: import('./availabilitySchedule').AvailabilitySchedule;
+  schedule?: import('@/types/availabilitySchedule').AvailabilitySchedule;
 }
 
 export interface AvailableSlot {

@@ -14,6 +14,7 @@ export interface OpenBookingLink {
   slug: string;
   title: string;
   description: string | null;
+  positionTitle: string | null;
   interviewType: InterviewType;
   durationMinutes: number;
   interviewerPoolId: string | null;
@@ -34,6 +35,7 @@ export interface CreateOpenBookingLinkInput {
   slug?: string;
   title: string;
   description?: string;
+  positionTitle?: string | null;
   interviewType: InterviewType;
   durationMinutes: number;
   interviewerPoolId?: string | null;
@@ -46,8 +48,10 @@ export interface CreateOpenBookingLinkInput {
 }
 
 export interface UpdateOpenBookingLinkInput {
+  slug?: string;
   title?: string;
   description?: string | null;
+  positionTitle?: string | null;
   interviewType?: InterviewType;
   durationMinutes?: number;
   interviewerPoolId?: string | null;

@@ -23,6 +23,9 @@ export interface Organization {
   // Limits
   maxMembers: number | null;
 
+  // Domain-based org matching
+  emailDomain: string | null;
+
   // ATS Provider (which ATS is active)
   atsProvider: 'icims' | 'greenhouse' | null;
 
@@ -103,6 +106,7 @@ export interface CreateOrganizationInput {
   slug: string;
   defaultTimezone?: string;
   defaultDurationMinutes?: number;
+  emailDomain?: string | null;
 }
 
 /**
@@ -114,6 +118,8 @@ export interface UpdateOrganizationInput {
   defaultTimezone?: string;
   defaultDurationMinutes?: number;
   maxMembers?: number | null;
+  // Domain matching
+  emailDomain?: string | null;
   // ATS Provider
   atsProvider?: 'icims' | 'greenhouse' | null;
   // iCIMS Integration
